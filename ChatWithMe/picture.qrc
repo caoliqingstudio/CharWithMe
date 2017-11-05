@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/picture">
+        <file>psb.png</file>
+    </qresource>
+</RCC>

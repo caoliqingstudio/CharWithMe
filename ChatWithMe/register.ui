@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Register</class>
+ <widget class="QMainWindow" name="Register">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>386</width>
+    <height>380</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>注册</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>40</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>用户名：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>40</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="maxLength">
+     <number>16</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>310</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>注册</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>310</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>返回</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>70</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>密  码：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>70</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhHiddenText</set>
+    </property>
+    <property name="maxLength">
+     <number>16</number>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>128</x>
+      <y>110</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>父亲姓名</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>母亲姓名</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>小学印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>初中印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>高中印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>大学印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>最喜欢的明星</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>最喜欢的运动</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>小学班主任</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>初中班主任</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>高中班主任</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>大学班主任</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_3">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>140</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>140</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>答  案：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>110</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>问题一：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_4">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>200</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_2">
+    <property name="geometry">
+     <rect>
+      <x>128</x>
+      <y>170</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>父亲姓名</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>母亲姓名</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>小学印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>初中印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>高中印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>大学印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>最喜欢的明星</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>最喜欢的运动</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>小学班主任</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>初中班主任</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>高中班主任</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>大学班主任</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>200</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>答  案：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>170</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>问题二：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_5">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>260</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_3">
+    <property name="geometry">
+     <rect>
+      <x>128</x>
+      <y>230</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>父亲姓名</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>母亲姓名</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>小学印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>初中印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>高中印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>大学印象最深的人</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>最喜欢的明星</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>最喜欢的运动</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>小学班主任</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>初中班主任</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>高中班主任</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>大学班主任</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>260</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>答  案：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>230</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>问题三：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>40</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <italic>true</italic>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>386</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
