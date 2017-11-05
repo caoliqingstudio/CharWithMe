@@ -6,8 +6,6 @@
 #include <QMap>
 #include <iostream>
 #include "server.h"
-#include "addfriend.h"
-#include "chat.h"
 #include "state.h"
 #include "mysocket.h"
 
@@ -15,15 +13,12 @@ class Thread: public QThread
 {
     Q_OBJECT
 public:
-    Thread(int type);
-    Ui::MainWindow *ui;
+    Thread();
     QTcpSocket *myconnect;
-    Server *server;
-    QMap<QString,Chat*> *chatUserUI;
-    QMap<QString,QString> *charUserIP;
+    QMap<QString, QTcpSocket *> m_mapClient;
+    QMap<QString,Thread *> m_mapThread;
 
 protected:
-    int type;
     virtual void run();
 };
 

@@ -3,11 +3,8 @@
 Server::Server(QObject *parent) : QObject(parent)
 {
     m_tcpServer = new QTcpServer();
-    //设置最大允许连接数，不设置的话默认为30
     m_tcpServer->setMaxPendingConnections(2000);
-//    qDebug() << m_tcpServer->maxPendingConnections();
     connect(m_tcpServer,SIGNAL(newConnection()),this,SLOT(newConnectSlot()));
-
 }
 
 Server::~Server()
@@ -17,8 +14,6 @@ Server::~Server()
 
 void Server::init(int port)
 {
-//    m_pMsgHandler = pMsgHandler;
-
     if(m_tcpServer->listen(QHostAddress::Any, port)){
         qDebug() << "listen OK!";
     }else{
@@ -26,19 +21,19 @@ void Server::init(int port)
     }
 }
 
-void Server::sendData(QString ip, QString data)
-{
-    m_mapClient.value(ip)->write(data.toLatin1());
-}
-void Server::sendData(QString ip, uchar *rawData)
-{
-    m_mapClient.value(ip)->write(QByteArray((char*)rawData));
-}
+//void Server::sendData(QString ip, QString data)
+//{
+//    m_mapClient.value(ip)->write(data.toLatin1());
+//}
+//void Server::sendData(QString ip, uchar *rawData)
+//{
+//    m_mapClient.value(ip)->write(QByteArray((char*)rawData));
+//}
 
 void Server::newConnectSlot()
 {
     QTcpSocket *tcp = m_tcpServer->nextPendingConnection();
-    //Thread *nextThread
+    //Thread *nextThread;
     connect(tcp,SIGNAL(readyRead()),this,SLOT(readMessage()));
     m_mapClient.insert(tcp->peerAddress().toString(), tcp);
     //m_pMsgHandler->devOnline(tcp->peerAddress().toString());
