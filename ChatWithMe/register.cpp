@@ -58,6 +58,7 @@ void Register::on_pushButton_clicked()
     this->destroyed();
     this->destroy();
     QMessageBox::information(this,tr("注册成功"),username);
+    on_pushButton_2_clicked();
     return;
 }
 

@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QChar>
+#include <QTime>
 #include <QCryptographicHash>
 #include "state.h"
 
@@ -19,7 +20,7 @@ public:
     MySocket(QString ip,QString port);
     //int init(QString ip,QString port);
     ~MySocket();
-    int sendText(int type,QString string);
+    int sendText(int type, QString string, QString username, QString aimusername);
     int sendLogin(QString username,QString password);
     int sendRegister(QString username,QString password,QString quest1,QString answ1,
                   QString quest2,QString answ2,QString quest3,QString answ3);

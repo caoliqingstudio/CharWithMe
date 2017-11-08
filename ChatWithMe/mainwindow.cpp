@@ -13,8 +13,8 @@ void MainWindow::init(){
     Server *server=new Server;
     server->init((*port).toInt());
     AddFriendWindows=NULL;
-    MySocket mysocket(*ip,*port);
-    std::cout<<mysocket.sendText(SENDTEXT,tr("asdfasdf"));
+    //MySocket mysocket(*ip,*port);
+    //std::cout<<mysocket.sendText(SENDTEXT,tr("asdfasdf"));
 }
 
 MainWindow::~MainWindow()

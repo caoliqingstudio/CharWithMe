@@ -16,12 +16,18 @@ MySocket::MySocket(QString ip,QString port)
     }
 }
 
-int MySocket::sendText(int type, QString string){
+int MySocket::sendText(int type, QString string,QString username,QString aimusername){
     if(connectState==FAILCONNECT){
         return FAILCONNECT;
     }
     QString typeString=QString::number(type);
-    string=typeString+"\n"+string;
+    QString strtime;
+    QDateTime time;
+
+    time = QDateTime::currentDateTime();
+
+    strtime = time.toString("yyyy-MM-dd hh:mm:ss");
+    string=typeString+"\n"+username+"\n"+aimusername+"\n"+strtime+"\n"+string;
     myconnect.write(string.toStdString().c_str());
     if(!myconnect.waitForBytesWritten()){
         std::cout<<"nothing \n"<<std::endl;
@@ -42,11 +48,11 @@ int MySocket::sendRegister(QString username,QString password,QString quest1,QStr
     QByteArray byte_array=password.toStdString().c_str();
     QByteArray hash_byte_array = QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
     QString md5 = hash_byte_array.toHex();
-    for(int i=0;i<md5.length();i++){
-        if((md5.toStdString().at(i))=='\n'||(md5.toStdString().at(i))=='\0'){
-            md5[i]='*';
-        }
-    }
+//    for(int i=0;i<md5.length();i++){
+//        if((md5.toStdString().at(i))=='\n'||(md5.toStdString().at(i))=='\0'){
+//            md5[i]='*';
+//        }
+//    }
     string=typeString+"\n"+username+"\n"+md5+"\n"+quest1+"\n"+answ1+"\n"+quest2+"\n"+answ2+"\n"+quest3+"\n"+answ3+"\n";
     myconnect.write(string.toStdString().c_str());
     if(!myconnect.waitForBytesWritten()){
@@ -58,6 +64,7 @@ int MySocket::sendRegister(QString username,QString password,QString quest1,QStr
         return NORETURN;
     }
     std::string result=myconnect.readAll().toStdString();
+    std::cout<<"result = "<<result<<std::endl;
     if(result.at(0)!=('0'+REGISTER)){
         qDebug()<<"wrong answer";
         return WRONG_ANSWER;
@@ -76,11 +83,6 @@ int MySocket::sendLogin(QString username,QString password){
     QByteArray byte_array=password.toStdString().c_str();
     QByteArray hash_byte_array = QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
     QString md5 = hash_byte_array.toHex();
-    for(int i=0;i<md5.length();i++){
-        if((md5.toStdString().at(i))=='\n'||(md5.toStdString().at(i))=='\0'){
-            md5[i]='*';
-        }
-    }
     string=typeString+"\n"+username+"\n"+md5+"\n";
     myconnect.write(string.toStdString().c_str());
     if(!myconnect.waitForBytesWritten()){
@@ -112,11 +114,6 @@ int MySocket::sendPwRetrieval(QString username,QString newpassword,QString quest
     QByteArray byte_array=newpassword.toStdString().c_str();
     QByteArray hash_byte_array = QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
     QString md5 = hash_byte_array.toHex();
-    for(int i=0;i<md5.length();i++){
-        if((md5.toStdString().at(i))=='\n'||(md5.toStdString().at(i))=='\0'){
-            md5[i]='*';
-        }
-    }
     string=typeString+"\n"+username+"\n"+md5+"\n"+quest1+"\n"+answ1+"\n"+quest2+"\n"+answ2+"\n"+quest3+"\n"+answ3+"\n";
     myconnect.write(string.toStdString().c_str());
     if(!myconnect.waitForBytesWritten()){
@@ -153,33 +150,23 @@ int MySocket::sendPwRetrievalAsk(QString username,QStringList *questions){
         std::cout<<"nothing \n"<<std::endl;
         return NORETURN;
     }
-    std::string result=myconnect.readAll().toStdString();
+    std::string result=myconnect.readLine().toStdString();
     if(result.at(0)!=('0'+PWRE_ASK)){
         qDebug()<<"wrong answer";
         return WRONG_ANSWER;
     }
-    if(result.at(2)!=('0'+TRUE_REQUEST)){
+    result=myconnect.readLine().toStdString();
+    if(result.at(0)!=('0'+TRUE_REQUEST)){
         qDebug()<<"wrong answer pwretrievalask";
         return WRONG_ANSWER;
     }
+    questions->clear();
     QString question;
-    int i=3;
-    while(result.at(i)!='\n'){
-        question.append(result.at(i));
-        i++;
-    }
+    question=QString::fromStdString(myconnect.readLine().toStdString());question.chop(1);
     questions->append(question);
-    question.clear();
-    while(result.at(i)!='\n'){
-        question.append(result.at(i));
-        i++;
-    }
+    question=QString::fromStdString(myconnect.readLine().toStdString());question.chop(1);
     questions->append(question);
-    question.clear();
-    while(result.at(i)!='\n'){
-        question.append(result.at(i));
-        i++;
-    }
+    question=QString::fromStdString(myconnect.readLine().toStdString());question.chop(1);
     questions->append(question);
     return SUCCESS;
 }
@@ -191,6 +178,6 @@ int MySocket::checkAndConnect(){
 
 MySocket::~MySocket(){
     myconnect.disconnect();
-    myconnect.waitForDisconnected();
+    //myconnect.waitForDisconnected();
 }
 

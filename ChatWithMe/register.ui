@@ -106,62 +106,62 @@
     </property>
     <item>
      <property name="text">
-      <string>父亲姓名</string>
+      <string>father's name</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>母亲姓名</string>
+      <string>mother's name</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>小学印象最深的人</string>
+      <string>most impressive person in primary school</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>初中印象最深的人</string>
+      <string>most impressive person in junior middle school</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>高中印象最深的人</string>
+      <string>most impressive person in high school</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>大学印象最深的人</string>
+      <string>most impressive person in university</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>最喜欢的明星</string>
+      <string>Favorite star</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>最喜欢的运动</string>
+      <string>Favorite sport</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>小学班主任</string>
+      <string>Primary school head teacher</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>初中班主任</string>
+      <string>Junior middle school head teacher</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>高中班主任</string>
+      <string>Senior school head teacher</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>大学班主任</string>
+      <string>University head teacher</string>
      </property>
     </item>
    </widget>
@@ -217,76 +217,6 @@
      <string/>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_2">
-    <property name="geometry">
-     <rect>
-      <x>128</x>
-      <y>170</y>
-      <width>151</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>父亲姓名</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>母亲姓名</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>小学印象最深的人</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>初中印象最深的人</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>高中印象最深的人</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>大学印象最深的人</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>最喜欢的明星</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>最喜欢的运动</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>小学班主任</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>初中班主任</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>高中班主任</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>大学班主任</string>
-     </property>
-    </item>
-   </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
@@ -325,76 +255,6 @@
     <property name="text">
      <string/>
     </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_3">
-    <property name="geometry">
-     <rect>
-      <x>128</x>
-      <y>230</y>
-      <width>151</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>父亲姓名</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>母亲姓名</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>小学印象最深的人</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>初中印象最深的人</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>高中印象最深的人</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>大学印象最深的人</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>最喜欢的明星</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>最喜欢的运动</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>小学班主任</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>初中班主任</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>高中班主任</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>大学班主任</string>
-     </property>
-    </item>
    </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
@@ -439,6 +299,146 @@
     <property name="text">
      <string/>
     </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_2">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>170</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>father's name</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>mother's name</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>most impressive person in primary school</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>most impressive person in junior middle school</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>most impressive person in high school</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>most impressive person in university</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Favorite star</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Favorite sport</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Primary school head teacher</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Junior middle school head teacher</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Senior school head teacher</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>University head teacher</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBox_3">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>230</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>father's name</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>mother's name</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>most impressive person in primary school</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>most impressive person in junior middle school</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>most impressive person in high school</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>most impressive person in university</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Favorite star</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Favorite sport</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Primary school head teacher</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Junior middle school head teacher</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Senior school head teacher</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>University head teacher</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

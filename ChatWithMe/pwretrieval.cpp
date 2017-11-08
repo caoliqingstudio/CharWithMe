@@ -47,8 +47,8 @@ void PwRetrieval::on_pushButton_clicked()
         }
         return;
     }
-    this->destroyed();
-    this->destroy();
+    this->hide();
+    on_pushButton_2_clicked();
     QMessageBox::information(this,tr("密码修改成功"),username);
     return;
 }

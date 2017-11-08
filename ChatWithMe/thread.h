@@ -9,14 +9,13 @@
 #include "addfriend.h"
 #include "chat.h"
 #include "state.h"
-#include "mysocket.h"
 
 class Thread: public QThread
 {
     Q_OBJECT
 public:
     Thread(int type);
-    Ui::MainWindow *ui;
+    //Ui::MainWindow *ui;
     QTcpSocket *myconnect;
     Server *server;
     QMap<QString,Chat*> *chatUserUI;

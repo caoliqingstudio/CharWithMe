@@ -1,11 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "state.h"
+#include "database.h"
 #include <QMainWindow>
-
 namespace Ui {
 class MainWindow;
 }
+
+#include "myserver.h"
 
 class MainWindow : public QMainWindow
 {
@@ -18,6 +21,9 @@ private slots:
     void on_pushButton_2_clicked();
 
 private:
+    DataBase *db;
+    void *myserver;//本来打算用 server
+    QString port;
     Ui::MainWindow *ui;
 };
 
