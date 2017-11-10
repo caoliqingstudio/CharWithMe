@@ -1,4 +1,4 @@
-#ifndef MYSERVER_H
+﻿#ifndef MYSERVER_H
 #define MYSERVER_H
 
 #include <iostream>
@@ -8,6 +8,7 @@
 #include <QtNetwork/QTcpSocket>
 #include <QtNetwork/QNetworkInterface>
 #include <QDebug>
+#include <QTime>
 #include "ui_mainwindow.h"
 #include "state.h"
 #include "thread.h"

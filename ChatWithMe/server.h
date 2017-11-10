@@ -1,4 +1,4 @@
-#ifndef SERVER_H
+﻿#ifndef SERVER_H
 #define SERVER_H
 
 #include <iostream>
@@ -8,6 +8,7 @@
 #include <QtNetwork/QTcpSocket>
 #include <QtNetwork/QNetworkInterface>
 #include <QDebug>
+#include "chat.h"
 #include "state.h"
 //#include "IMsgInterface.h"
 
@@ -17,23 +18,18 @@ class Server : public QObject
 public:
     explicit Server(QObject *parent = 0);
     ~Server();
-
+    QMap<QString,Chat*> *chatUserUI;
+    QMap<QString,QString> *charUserIP;
     void init(int port);
-//    void init(IMsgInterface * pMsgHandler, int port);
-    void sendData(QString ip, QString data);
-    void sendData(QString ip, uchar *rawData);
 signals:
 
 
 private slots:
-
     void newConnectSlot();
     void readMessage();
     void removeUserFormList();
 private:
     QTcpServer *m_tcpServer;
     QMap<QString, QTcpSocket *> m_mapClient;
-
-//    IMsgInterface *m_pMsgHandler;
 };
 #endif // SERVER_H

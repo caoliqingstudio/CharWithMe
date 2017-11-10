@@ -1,4 +1,4 @@
-#include "myserver.h"
+﻿#include "myserver.h"
 
 
 Server::Server(QObject *parent) : QObject(parent)
@@ -36,15 +36,19 @@ void Server::init(int port)
 void Server::newConnectSlot()
 {
     QTcpSocket *tcp = m_tcpServer->nextPendingConnection();
-    Thread *nextThread=new Thread;
-    nextThread->ui=ui;
-    nextThread->myserver=this;
-    nextThread->type=0;
-    nextThread->myconnect=tcp;
-    nextThread->start();
+    QThread *thread = new QThread(this);
+    connect(tcp,SIGNAL(readyRead()),this,SLOT(readMessage()));
+    thread->start();
+    tcp->moveToThread(thread);
+//    QTcpSocket *tcp = m_tcpServer->nextPendingConnection();
+//    Thread *nextThread=new Thread;
+//    nextThread->ui=ui;
+//    nextThread->myserver=this;
+//    nextThread->type=0;
+//    nextThread->myconnect=tcp;
+//    nextThread->start();
     m_mapClient.insert(tcp->peerAddress().toString(), tcp);
-    m_mapThread.insert(tcp->peerAddress().toString(),nextThread);
-    //m_pMsgHandler->devOnline(tcp->peerAddress().toString());
+    //m_mapThread.insert(tcp->peerAddress().toString(),nextThread);
     //qDebug()<<"\n  this is tcp->peerAddress 52 \n"<<tcp->peerAddress();
 
     connect(tcp,SIGNAL(disconnected()),this,SLOT(removeUserFormList()));
@@ -56,8 +60,47 @@ void Server::readMessage()
     //qDebug()<<"  this is socket->peerAddress 66\n"<<socket->peerAddress();
     std::string result=socket->readLine().toStdString();
     switch (result.at(0)) {
-    case ('0'+CONNECT):
-
+    case ('0'+CONNECT):{
+        QString username=QString::fromStdString(socket->readLine().toStdString());username.chop(1);
+        char result[]="0\n0\n";
+        result[0]+=CONNECT;
+        QStringList usernames,infomations,times;
+        result[2]+=TRUE_REQUEST;
+        QStringList friends,nicknames,friendtimes;
+        db.findFriends(username,&friends,&nicknames,&friendtimes);
+        bool state=db.findOffLine(username,&usernames,&infomations,&times);
+        QString resultQSt=QString(result)+QString::number(friends.count())+"\n"+QString::number(usernames.count())+"\n";
+        for(int i=0;i<friends.count();i++){
+            resultQSt+= friends.at(i)+"\n"+nicknames.at(i)+"\n"+friendtimes.at(i)+"\n";
+        }
+        resultQSt+="friendover\n";
+//        qDebug()<<"first send"<<resultQSt;
+//        socket->write(resultQSt.toStdString().c_str());
+//        socket->waitForBytesWritten(3000);
+        if(state){
+            for(int i=0;i<usernames.count();i++) {
+                resultQSt += usernames.at(i)+"\n"+infomations.at(i)+"\n"+times.at(i)+"\n";
+            }
+            db.deleteOffLine(username);
+        }
+        resultQSt += "over\n";
+        qDebug()<<"first send"<<resultQSt;
+        socket->write(resultQSt.toStdString().c_str());
+        socket->waitForBytesWritten(3000);
+        QString ip;
+        if(!db.findOnline(username,&ip)){
+            db.insertOnline(username,socket->peerAddress().toString());
+        }else if(ip.compare(socket->peerAddress().toString())){
+            db.deleteOnline(username);
+            db.insertOnline(username,socket->peerAddress().toString());
+        }
+        qDebug()<<"connect insert into db"<<socket->peerAddress().toString();
+        QStringList onlines;
+        ui->label_4->setText(QString::number(db.onlineNumber(&onlines)));
+        ui->listWidget_2->clear();
+        ui->listWidget_2->addItems(onlines);
+        qDebug()<<"connect flash ui";
+    }
         break;
     case ('0'+SENDTEXT):{
         QString username=QString::fromStdString(socket->readLine().toStdString());
@@ -144,8 +187,41 @@ void Server::readMessage()
     }
 
         break;
-    case ('0'+ADD):
-
+    case ('0'+ADD):{
+        QString username=QString::fromStdString(socket->readLine().toStdString());username.chop(1);
+        QString friendname=QString::fromStdString(socket->readLine().toStdString());friendname.chop(1);
+        QString nickname=QString::fromStdString(socket->readLine().toStdString());nickname.chop(1);
+        qDebug()<<"\n add "<<username<<friendname<<nickname;
+        if(db.findUser(username)){
+            QString strtime;
+            QDateTime time;
+            time = QDateTime::currentDateTime();
+            strtime = time.toString("yyyy-MM-dd hh:mm:ss");
+            if(db.insertFriends(username,friendname,strtime,nickname)&&db.insertFriends(friendname,username,strtime)){
+                QString ip;
+                char result[]="0\n0\n";
+                result[0]+=ADD;
+                result[2]+=TRUE_REQUEST;
+                QString resultQSt=QString(result);
+                socket->write(resultQSt.toStdString().c_str());
+                socket->waitForBytesWritten(3000);
+                if(db.findOnline(friendname,&ip)&&m_mapClient.contains(ip)){
+                     int type=ADD;
+                     QString string;
+                     QString typeString=QString::number(type);
+                     string=typeString+"\n"+username+"\n"+friendname+"\n";
+                     m_mapClient.value(ip)->write(string.toStdString().c_str());
+                     m_mapClient.value(ip)->waitForBytesWritten(3000);
+                 }
+                 break;
+            }
+        }
+        char result[]="0\n0\n";
+        result[0]+=ADD;
+        result[2]+=FALSE_REQUEST;
+        socket->write(result);
+        socket->waitForBytesWritten(3000);
+    }
         break;
     case ('0'+SENDFILE):
 
@@ -164,7 +240,7 @@ void Server::readMessage()
                 QString resultQSt=QString(result)+q1+"\n"+q2+"\n"+q3+"\n";
                 qDebug()<<resultQSt;
                 socket->write(resultQSt.toStdString().c_str());
-                socket->waitForBytesWritten();
+                socket->waitForBytesWritten(3000);
                 break;
             }
         }
@@ -172,11 +248,29 @@ void Server::readMessage()
         result[0]+=PWRE_ASK;
         result[2]+=FALSE_REQUEST;
         socket->write(result);
-        socket->waitForBytesWritten();
+        socket->waitForBytesWritten(3000);
     }
         break;
-    case ('0'+SERVER):
-
+    case ('0'+SERVER):{
+        QString username=QString::fromStdString(socket->readLine().toStdString());username.chop(1);
+        if(db.findUser(username)){
+            QString ip;
+            if(db.findOnline(username,&ip)){
+                int type=SERVER;
+                QString string;
+                QString typeString=QString::number(type);
+                string=typeString+"\n"+QString::number(TRUE_REQUEST)+"\n"+username+"\n"+ip+"\n";
+                qDebug()<<"ni dui xiang ip "<<string;
+                socket->write(string.toStdString().c_str());
+                socket->waitForBytesWritten(3000);
+            }
+        }
+        char result[]="0\n0\n";
+        result[0]+=SERVER;
+        result[2]+=FALSE_REQUEST;
+        socket->write(result);
+        socket->waitForBytesWritten(3000);
+    }
         break;
     default:
         break;
@@ -186,14 +280,18 @@ void Server::readMessage()
 void Server::removeUserFormList()
 {
     QTcpSocket* socket = static_cast<QTcpSocket*>(sender());
-
+    db.deleteOnline(socket->peerAddress().toString(),1);
+    QStringList onlines;
+    ui->label_4->setText(QString::number(db.onlineNumber(&onlines)));
+    ui->listWidget_2->clear();
+    ui->listWidget_2->addItems(onlines);
     for(QMap<QString, QTcpSocket *>::iterator it=m_mapClient.begin();it!=m_mapClient.end();it++)
     {
         if(socket->peerAddress().toString() == it.key())
         {
             m_mapClient.erase(it);
             //m_pMsgHandler->devOffline(socket->peerAddress().toString());
-            //qDebug()<<"this is socket->peerAddress().toString() 82\n"<<socket->peerAddress().toString();
+            qDebug()<<"this is socket->peerAddress().toString() 82\n"<<socket->peerAddress().toString();
             break;
         }
     }

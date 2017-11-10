@@ -1,4 +1,4 @@
-#include "database.h"
+﻿#include "database.h"
 
 DataBase::DataBase()
 {
@@ -140,7 +140,6 @@ bool DataBase::findOnline(QString username,QString *ip){
     query.bindValue(0,username);
     query.exec();
     QSqlRecord rec = query.record();
-    qDebug() << QObject::tr("online 表字段数:" ) << rec.count();
     bool state=false;
     while(query.next())
     {
@@ -184,7 +183,7 @@ bool DataBase::findUser(QString username,QString *password){
         query.bindValue(0,username);
         query.bindValue(1,*password);
     }else{
-        query.prepare("select * from users where username = ?");////////////////////////////////////////////
+        query.prepare("select * from users where username = ?");
         query.bindValue(0,username);
     }
     query.exec();

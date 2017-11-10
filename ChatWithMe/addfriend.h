@@ -1,8 +1,8 @@
-#ifndef ADDFRIEND_H
+﻿#ifndef ADDFRIEND_H
 #define ADDFRIEND_H
 
 #include <QMainWindow>
-
+#include "mysocket.h"
 namespace Ui {
 class AddFriend;
 }
@@ -14,6 +14,10 @@ class AddFriend : public QMainWindow
 public:
     QString *port;
     QString *ip;
+    MySocket *mysocket;
+    QString *username;
+    QString friendname;
+    QString nickname;
     explicit AddFriend(QWidget *parent = 0);
     ~AddFriend();
 

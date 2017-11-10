@@ -1,4 +1,4 @@
-#ifndef MYSOCKET_H
+﻿#ifndef MYSOCKET_H
 #define MYSOCKET_H
 
 
@@ -27,11 +27,16 @@ public:
     int sendPwRetrieval(QString username,QString newpassword,QString quest1,QString answ1,
                   QString quest2,QString answ2,QString quest3,QString answ3);
     int sendPwRetrievalAsk(QString username,QStringList *questions);
+    int sendConnect(QString username, QStringList*fromnames, QStringList *infors, QStringList *times, QStringList *friends, QStringList *nicknames, QStringList *timefriends);
+    int sendAddFriend(QString username, QString aimusername, QString nickname);
+    int sendConnect();
+    int sendServer(QString aimusername,QString *ip);
 private slots:
     //void receive();
 private:
-    QString receiveInfor;
     int connectState;
+    QString receiveInfor;
+    QString ip,port;
     QTcpSocket myconnect;
     int checkAndConnect();
 };

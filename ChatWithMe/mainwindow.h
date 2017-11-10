@@ -1,8 +1,9 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QMap>
+#include <QListWidgetItem>
 #include <iostream>
 #include "server.h"
 #include "mysocket.h"
@@ -29,10 +30,15 @@ public:
 private slots:
     void on_pushButton_clicked();
 
-    void on_listWidget_doubleClicked(const QModelIndex &index);
+    void addItemFriend();
 
+    void on_listWidget_itemClicked(QListWidgetItem *item);
+
+    void deleteChat();
 private:
     AddFriend *AddFriendWindows;
+    MySocket *mysocket;
+    QStringList friendList,nicknameList,timeFriendList;
     Ui::MainWindow *ui;
 };
 
