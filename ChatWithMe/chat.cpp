@@ -14,6 +14,7 @@ Chat::Chat(QWidget *parent) :
 }
 
 void Chat::init(){
+  ui->textEdit->document()->setMaximumBlockCount(200);
   ui->label_2->setText(aimusername);
   ui->pushButton_2->setEnabled(!statehost);
 }
@@ -42,4 +43,13 @@ void Chat::on_pushButton_clicked()
 
 void Chat::addInfor(QString name, QString infor, QString time){
     ui->listWidget->addItem(name+"  "+time+":\n"+infor);
+}
+
+void Chat::on_pushButton_2_clicked()
+{
+    const QString fileName = QFileDialog::getOpenFileName(this);
+    if(!fileName.isEmpty()){
+        Thread * thread=new Thread(0,aimuserip,filename,username,aimusername);
+        thread->start();
+    }
 }

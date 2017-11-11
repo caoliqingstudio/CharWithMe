@@ -12,7 +12,7 @@
 
 namespace Ui {
 class MainWindow;
-}
+};
 
 class MainWindow : public QMainWindow
 {
@@ -25,6 +25,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void init();
+    void byAddChat(QString fromname,QString infor,QString time);
+    void byAddChat(const QString fromname);
+    void addFriendList(QString name);
     QMap<QString,Chat*> chatUserUI;
     QMap<QString,QString> charUserIP;
 private slots:

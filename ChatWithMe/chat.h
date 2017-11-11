@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QTime>
+#include <QFileDialog>
+#include "thread.h"
 #include "mysocket.h"
 #include "state.h"
 
@@ -30,6 +32,8 @@ public:
     void addInfor(QString name,QString infor,QString time);
 private slots:
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::Chat *ui;

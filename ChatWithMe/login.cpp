@@ -1,4 +1,4 @@
-#include "login.h"
+﻿#include "login.h"
 #include "ui_login.h"
 
 Login::Login(QWidget *parent) :
@@ -18,7 +18,7 @@ void Login::init(){
     ui->ipset->setText("127.0.0.1");//默认ip和端口
     ui->ipset->setPlaceholderText("ip");
     ui->portset->hide();
-    ui->portset->setText("1234");
+    ui->portset->setText("4321");
     ui->portset->setPlaceholderText("port");
     ui->pushButton_4->hide();
     ip=new QString;

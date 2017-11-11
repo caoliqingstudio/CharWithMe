@@ -107,7 +107,7 @@ void Server::readMessage()
         username.chop(1);
         QString aimusername=QString::fromStdString(socket->readLine().toStdString());aimusername.chop(1);
         QString thistime=QString::fromStdString(socket->readLine().toStdString());thistime.chop(1);
-        QString information=QString::fromStdString(socket->readAll().toStdString());
+        QString information=QString::fromStdString(socket->readAll().toStdString());information.chop(1);
         db.insertOffLine(username,aimusername,information,thistime);
     }
         break;
@@ -210,8 +210,13 @@ void Server::readMessage()
                      QString string;
                      QString typeString=QString::number(type);
                      string=typeString+"\n"+username+"\n"+friendname+"\n";
-                     m_mapClient.value(ip)->write(string.toStdString().c_str());
-                     m_mapClient.value(ip)->waitForBytesWritten(3000);
+                     QTcpSocket thisSocket(this);
+                     QHostAddress address(ip);
+                     thisSocket.connectToHost(address,AIM_PORT);
+                     if(!thisSocket.waitForConnected(300)){
+                         thisSocket.write(string.toStdString().c_str());
+                         thisSocket.waitForBytesWritten(300);
+                     }
                  }
                  break;
             }

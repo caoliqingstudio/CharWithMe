@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     addfriend.cpp \
     chat.cpp \
     mysocket.cpp \
-    thread.cpp
+    thread.cpp \
+    myspnplus.cpp
 
 HEADERS  += mainwindow.h \
     server.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     chat.h \
     mysocket.h \
     state.h \
-    thread.h
+    thread.h \
+    myspnplus.h
 
 FORMS    += mainwindow.ui \
     login.ui \

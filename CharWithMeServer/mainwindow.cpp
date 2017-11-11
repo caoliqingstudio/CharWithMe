@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->lineEdit->setText("1234");
+    ui->lineEdit->setText("4321");
     db=new DataBase(1);
     QStringList users;
     ui->label_2->setText(QString::number(db->userNumber(&users)));

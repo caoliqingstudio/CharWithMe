@@ -12,6 +12,7 @@
 #include <QTime>
 #include <QCryptographicHash>
 #include "state.h"
+#include "myspnplus.h"
 
 class MySocket:QObject
 {
@@ -34,6 +35,7 @@ public:
 private slots:
     //void receive();
 private:
+
     int connectState;
     QString receiveInfor;
     QString ip,port;

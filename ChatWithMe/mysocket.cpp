@@ -23,6 +23,9 @@ int MySocket::sendText(int type, QString string,QString username,QString aimuser
     if(connectState==FAILCONNECT){
         return FAILCONNECT;
     }
+    MySPNPlus myspn;
+    myspn.getKey(aimusername);
+    myspn.encrypt(string,&string);
     QString typeString=QString::number(type);
     QString strtime;
     QDateTime time;
@@ -30,7 +33,8 @@ int MySocket::sendText(int type, QString string,QString username,QString aimuser
     time = QDateTime::currentDateTime();
 
     strtime = time.toString("yyyy-MM-dd hh:mm:ss");
-    string=typeString+"\n"+username+"\n"+aimusername+"\n"+strtime+"\n"+string;
+    string=typeString+"\n"+username+"\n"+aimusername+"\n"+strtime+"\n"+string+"\n";
+    //qDebug()<<string;
     myconnect.write(string.toStdString().c_str());
     if(!myconnect.waitForBytesWritten()){
         std::cout<<"nothing \n"<<std::endl;
@@ -49,15 +53,26 @@ int MySocket::sendRegister(QString username,QString password,QString quest1,QStr
     int type=REGISTER;
     QString string;
     QString typeString=QString::number(type);
+    //密码
     QByteArray byte_array=password.toStdString().c_str();
     QByteArray hash_byte_array = QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
     QString md5 = hash_byte_array.toHex();
-//    for(int i=0;i<md5.length();i++){
-//        if((md5.toStdString().at(i))=='\n'||(md5.toStdString().at(i))=='\0'){
-//            md5[i]='*';
-//        }
-//    }
-    string=typeString+"\n"+username+"\n"+md5+"\n"+quest1+"\n"+answ1+"\n"+quest2+"\n"+answ2+"\n"+quest3+"\n"+answ3+"\n";
+    string=typeString+"\n"+username+"\n"+md5+"\n"+quest1+"\n";
+    //答案1
+    byte_array=answ1.toStdString().c_str();
+    hash_byte_array=QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
+    md5=hash_byte_array.toHex();
+    string+=md5+"\n"+quest2+"\n";
+    //答案2
+    byte_array=answ2.toStdString().c_str();
+    hash_byte_array=QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
+    md5=hash_byte_array.toHex();
+    string+=md5+"\n"+quest3+"\n";
+    //答案3
+    byte_array=answ3.toStdString().c_str();
+    hash_byte_array=QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
+    md5=hash_byte_array.toHex();
+    string+=md5+"\n";
     myconnect.write(string.toStdString().c_str());
     if(!myconnect.waitForBytesWritten()){
         std::cout<<"nothing \n"<<std::endl;
@@ -120,7 +135,22 @@ int MySocket::sendPwRetrieval(QString username,QString newpassword,QString quest
     QByteArray byte_array=newpassword.toStdString().c_str();
     QByteArray hash_byte_array = QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
     QString md5 = hash_byte_array.toHex();
-    string=typeString+"\n"+username+"\n"+md5+"\n"+quest1+"\n"+answ1+"\n"+quest2+"\n"+answ2+"\n"+quest3+"\n"+answ3+"\n";
+    string=typeString+"\n"+username+"\n"+md5+"\n"+quest1+"\n";
+    //答案1
+    byte_array=answ1.toStdString().c_str();
+    hash_byte_array=QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
+    md5=hash_byte_array.toHex();
+    string+=md5+"\n"+quest2+"\n";
+    //答案2
+    byte_array=answ2.toStdString().c_str();
+    hash_byte_array=QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
+    md5=hash_byte_array.toHex();
+    string+=md5+"\n"+quest3+"\n";
+    //答案3
+    byte_array=answ3.toStdString().c_str();
+    hash_byte_array=QCryptographicHash::hash(byte_array, QCryptographicHash::Md5);
+    md5=hash_byte_array.toHex();
+    string+=md5+"\n";
     myconnect.write(string.toStdString().c_str());
     if(!myconnect.waitForBytesWritten()){
         std::cout<<"nothing \n"<<std::endl;
@@ -184,7 +214,7 @@ int MySocket::sendConnect(){
     int type=CONNECT;
     QString string;
     QString typeString=QString::number(type);
-    string=typeString;
+    string=typeString+"\n";
     myconnect.write(string.toStdString().c_str());
     if(!myconnect.waitForBytesWritten()){
         std::cout<<"nothing \n"<<std::endl;
@@ -230,7 +260,7 @@ int MySocket::sendConnect(QString username, QStringList*fromnames, QStringList *
     std::string result=myconnect.readLine().toStdString();
     if(result.at(0)!=('0'+CONNECT)){
         qDebug()<<"wrong answer";
-        myconnect.flush();
+        //myconnect.flush();
         return WRONG_ANSWER;
     }
     result=myconnect.readLine().toStdString();
@@ -254,7 +284,10 @@ int MySocket::sendConnect(QString username, QStringList*fromnames, QStringList *
         timefriends->append(timefriend);
     }
     int num=QString::fromStdString(result).toInt();
-    qDebug()<<friendnum<<num<<"liangge de shumu";
+    //qDebug()<<friendnum<<num<<"liangge de shumu";
+    //QString readalltext=QString::fromStdString(myconnect.readAll().toStdString());qDebug()<<readalltext;return WRONG_ANSWER;
+    MySPNPlus test;test.getKey(username);
+    fromnames->clear();infors->clear();times->clear();
     for(int i=0;i<num+1;i++){
          QString fromname,time,infor;
          fromname=QString::fromStdString(myconnect.readLine().toStdString());fromname.chop(1);
@@ -262,7 +295,9 @@ int MySocket::sendConnect(QString username, QStringList*fromnames, QStringList *
              break;
          }
          fromnames->append(fromname);
-         infor=QString::fromStdString(myconnect.readLine().toStdString());infor.chop(1);infors->append(infor);
+         infor=QString::fromStdString(myconnect.readLine().toStdString());infor.chop(1);
+         test.decrypt(infor,&infor);
+         infors->append(infor);
          time=QString::fromStdString(myconnect.readLine().toStdString());time.chop(1);times->append(time);
     }
     return SUCCESS;
@@ -324,7 +359,7 @@ int MySocket::sendServer(QString aimusername, QString *ip){
     }
     result=myconnect.readLine().toStdString();
     if(result.at(0)!=('0'+TRUE_REQUEST)){
-        qDebug()<<"wrong answer r=true";
+        //qDebug()<<"wrong answer r=true";
         myconnect.flush();
         return WRONG_ANSWER;
     }

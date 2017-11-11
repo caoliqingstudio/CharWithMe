@@ -8,9 +8,11 @@
 #include <QtNetwork/QTcpSocket>
 #include <QtNetwork/QNetworkInterface>
 #include <QDebug>
+#include <QTime>
 #include "chat.h"
 #include "state.h"
-//#include "IMsgInterface.h"
+#include "mainwindow.h"
+#include "myspnplus.h"
 
 class Server : public QObject
 {
@@ -18,6 +20,7 @@ class Server : public QObject
 public:
     explicit Server(QObject *parent = 0);
     ~Server();
+    void * thismainwindow;
     QMap<QString,Chat*> *chatUserUI;
     QMap<QString,QString> *charUserIP;
     void init(int port);
