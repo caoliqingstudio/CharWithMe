@@ -325,7 +325,8 @@ void MySPNPlus::encrypt(QString input, QString *output){
     int num =length/8;
     if(length%8){
         num++;
-        strcat(text,"        ");
+        text[length]=0;text[length+1]=0;text[length+2]=0;text[length+3]=0;text[length+4]=0;
+        text[length+5]=0;text[length+6]=0;text[length+7]=0;
     }
     //qDebug()<<"input = "<<input<<length<<num;
     for(int i=0;i<num;i++){

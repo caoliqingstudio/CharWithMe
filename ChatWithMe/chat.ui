@@ -37,7 +37,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>LOGO</string>
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>:/picture/psb.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">

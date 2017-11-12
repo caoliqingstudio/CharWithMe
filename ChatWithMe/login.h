@@ -1,4 +1,4 @@
-#ifndef LOGIN_H
+﻿#ifndef LOGIN_H
 #define LOGIN_H
 
 #include <QMainWindow>
@@ -16,9 +16,11 @@ class Login : public QMainWindow
 
 public:
     QString *port;
+    QString *mainUserName;
     QString *ip;
     explicit Login(QWidget *parent = 0);
     ~Login();
+    void init();
 
 private slots:
     void on_pushButton_clicked();
@@ -32,7 +34,6 @@ private slots:
     void on_pushButton_4_clicked();
 
 private:
-    void init();
     PwRetrieval *pwRetrievalWindows;
     Register *registerWindows;
     Ui::Login *ui;

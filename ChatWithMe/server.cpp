@@ -53,9 +53,11 @@ void Server::readMessage()
         QString aimusername=QString::fromStdString(socket->readLine().toStdString());aimusername.chop(1);
         QString thistime=QString::fromStdString(socket->readLine().toStdString());thistime.chop(1);
         QString information=QString::fromStdString(socket->readLine().toStdString());information.chop(1);
-        MySPNPlus myspn;myspn.decrypt(information,&information);
+        //qDebug()<<"\n\ntext from "<<username<<"\ninformation = "<<information<<"\n time = "<<thistime;
+        MySPNPlus myspn;myspn.getKey(aimusername);myspn.decrypt(information,&information);
         //等等写
-        ((MainWindow*)thismainwindow)->byAddChat(username,information,thistime);
+        //qDebug()<<information;
+        ((MainWindow*)thismainwindow)->byAddChat(username,information,thistime,socket);
     }
         break;
     case ('0'+LOGIN)://do nothing
@@ -82,7 +84,7 @@ void Server::readMessage()
         QString filename=QString::fromStdString(socket->readLine().toStdString());filename.chop(1);
         QString sizename=QString::fromStdString(socket->readLine().toStdString());sizename.chop(1);
         QString timestr=QString::fromStdString(socket->readLine().toStdString());timestr.chop(1);
-        Thread *mythread=new Thread(socket,sizename.toLongLong(),filename,username);
+        Thread *mythread=new Thread(socket,sizename.toLongLong(),filename,username,friendname);
         mythread->start();
         ((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" filesize ="+sizename,timestr);
     }

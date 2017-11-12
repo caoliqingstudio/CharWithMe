@@ -19,6 +19,7 @@ class MySocket:QObject
     Q_OBJECT
 public:
     MySocket(QString ip,QString port);
+    MySocket(QString ip,QString port,QTcpSocket* insocket);
     //int init(QString ip,QString port);
     ~MySocket();
     int sendText(int type, QString string, QString username, QString aimusername);
@@ -32,6 +33,7 @@ public:
     int sendAddFriend(QString username, QString aimusername, QString nickname);
     int sendConnect();
     int sendServer(QString aimusername,QString *ip);
+    int sendQuit(QString username);//使用 listening
 private slots:
     //void receive();
 private:
@@ -39,7 +41,7 @@ private:
     int connectState;
     QString receiveInfor;
     QString ip,port;
-    QTcpSocket myconnect;
+    QTcpSocket *myconnect;
     int checkAndConnect();
 };
 

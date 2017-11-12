@@ -14,9 +14,18 @@ Chat::Chat(QWidget *parent) :
 }
 
 void Chat::init(){
+  if(socket){
+      mysocket=new MySocket(aimuserip,aimuserport,socket);
+  }
   ui->textEdit->document()->setMaximumBlockCount(200);
   ui->label_2->setText(aimusername);
   ui->pushButton_2->setEnabled(!statehost);
+}
+
+void Chat::init(MySocket *socket){
+    init();
+    statehost=false;
+    mysocket=socket;
 }
 
 Chat::~Chat()
@@ -49,7 +58,7 @@ void Chat::on_pushButton_2_clicked()
 {
     const QString fileName = QFileDialog::getOpenFileName(this);
     if(!fileName.isEmpty()){
-        Thread * thread=new Thread(0,aimuserip,filename,username,aimusername);
+        Thread * thread=new Thread(aimuserip,fileName,username,aimusername);
         thread->start();
     }
 }

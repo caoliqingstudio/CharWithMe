@@ -83,12 +83,17 @@ nickname:
 time:
 state:
 
-7.文件传输
-type：
-username：
-aimusername：
-order：
-number：
-time：
-information：
+//7.文件传输
+//type：
+//username：
+//aimusername：
+//order：
+//number：
+//time：
+//information：
 
+7. 文件传输
+块号
+块大小//默认1000byte
+验证//1byte
+内容

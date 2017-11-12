@@ -27,6 +27,7 @@ public:
     MySocket *mysocket;
     QTcpSocket *socket;
     void init();
+    void init(MySocket *socket);
     explicit Chat(QWidget *parent = 0);
     ~Chat();
     void addInfor(QString name,QString infor,QString time);

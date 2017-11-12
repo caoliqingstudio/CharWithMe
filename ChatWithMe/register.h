@@ -1,10 +1,10 @@
-#ifndef REGISTER_H
+﻿#ifndef REGISTER_H
 #define REGISTER_H
 
 #include <QMainWindow>
 #include <QMessageBox>
 #include "state.h"
-#include "thread.h"
+#include "mysocket.h"
 
 namespace Ui {
 class Register;

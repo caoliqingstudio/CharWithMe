@@ -7,6 +7,8 @@
 #include <QDialog>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QtNetwork/QTcpServer>
+#include <QtNetwork/QNetworkInterface>
 #include <QMap>
 #include <iostream>
 #include <QtNetwork/QTcpSocket>
@@ -21,11 +23,12 @@ class Thread: public QThread
     Q_OBJECT
 public:
     Thread(QString ip,QString filename,QString username,QString aimusername);//0 发文件  1 收文件
-    Thread(QTcpSocket *socket, long long filesize, QString filename, QString username);
+    Thread(QTcpSocket *socket, quint64 filesize, QString filename, QString username, QString aimusername);
     ~Thread();
 protected:
+    char *text;
     bool sendtype;
-    long long filesize;
+    quint64 receivefilesize;
     QTcpSocket *mysocket;
     QString *filename;
     QString *username;

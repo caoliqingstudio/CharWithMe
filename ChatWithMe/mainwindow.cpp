@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::init(){
+    connect(this,SIGNAL(destroyed(QObject*)),this,SLOT(windowQuit()));
     QStringList usernames,informations,times;
     Server *server=new Server;
     server->charUserIP=&charUserIP;
@@ -126,10 +127,25 @@ void MainWindow::deleteChat(){
     delete thischar;
 }
 
-void MainWindow::byAddChat(const QString fromname){
+void MainWindow::byAddChat(const QString fromname, QTcpSocket *socket){
     qDebug()<<"new window char ="<<fromname;
     if(chatUserUI.contains(fromname)){
         chatUserUI.value(fromname)->show();
+    }else if(socket){
+        Chat * chatwindow=new Chat;
+        chatwindow->aimusername=fromname;
+        chatwindow->username=username;
+        chatwindow->mysocket=mysocket;
+        chatwindow->socket=socket;
+        chatwindow->hostip=ip;chatwindow->hostport=port;
+        chatwindow->aimuserip=socket->peerAddress().toString();chatwindow->aimuserport=QString::number(AIM_PORT);
+        chatwindow->statehost=false;
+        chatwindow->init();
+        charUserIP.insert(fromname,socket->peerAddress().toString());
+        chatUserUI.insert(fromname,chatwindow);
+        connect(chatwindow,SIGNAL(destroyed(QObject*)),this,SLOT(deleteChat()));
+        //对象不在，给老大吧
+        chatwindow->show();
     }else{
         QString aimusername=fromname;
         QString aimuserip;
@@ -172,9 +188,9 @@ void MainWindow::byAddChat(const QString fromname){
     }
 }
 
-void MainWindow::byAddChat(QString fromname, QString infor, QString time){
+void MainWindow::byAddChat(QString fromname, QString infor, QString time, QTcpSocket *socket){
     qDebug()<<"new window chat=="<<fromname<<infor<<time;
-    byAddChat(fromname);
+    byAddChat(fromname,socket);
     if(chatUserUI.contains(fromname)){
         chatUserUI.value(fromname)->addInfor(fromname,infor,time);
     }

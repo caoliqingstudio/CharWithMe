@@ -231,8 +231,16 @@ void Server::readMessage()
     case ('0'+SENDFILE):
 
         break;
-    case ('0'+LISTENING):
-
+    case ('0'+LISTENING):{
+        QString username=QString::fromStdString(socket->readLine().toStdString());username.chop(1);
+        qDebug()<<"delete online user = "<<username;
+        db.deleteOnline(username);
+        QStringList onlines;
+        int onlineNum=db.onlineNumber(&onlines);
+        ui->label_4->setText(QString::number(onlineNum));
+        ui->listWidget_2->clear();
+        ui->listWidget_2->addItems(onlines);
+    }
         break;
     case ('0'+PWRE_ASK):{
         QString username=QString::fromStdString(socket->readLine().toStdString());username.chop(1);
@@ -290,6 +298,7 @@ void Server::removeUserFormList()
     ui->label_4->setText(QString::number(db.onlineNumber(&onlines)));
     ui->listWidget_2->clear();
     ui->listWidget_2->addItems(onlines);
+//    qDebug()<<"delete user ip= "<<QString(socket->peerAddress().toString());
     for(QMap<QString, QTcpSocket *>::iterator it=m_mapClient.begin();it!=m_mapClient.end();it++)
     {
         if(socket->peerAddress().toString() == it.key())

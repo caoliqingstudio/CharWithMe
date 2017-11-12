@@ -25,8 +25,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void init();
-    void byAddChat(QString fromname,QString infor,QString time);
-    void byAddChat(const QString fromname);
+    void byAddChat(QString fromname,QString infor,QString time,QTcpSocket*socket=NULL);
+    void byAddChat(const QString fromname, QTcpSocket *socket=NULL);
     void addFriendList(QString name);
     QMap<QString,Chat*> chatUserUI;
     QMap<QString,QString> charUserIP;
@@ -38,6 +38,7 @@ private slots:
     void on_listWidget_itemClicked(QListWidgetItem *item);
 
     void deleteChat();
+
 private:
     AddFriend *AddFriendWindows;
     MySocket *mysocket;

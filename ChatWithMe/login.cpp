@@ -6,7 +6,7 @@ Login::Login(QWidget *parent) :
     ui(new Ui::Login)
 {
     ui->setupUi(this);
-    init();
+    //init();
 }
 
 void Login::init(){
@@ -21,8 +21,8 @@ void Login::init(){
     ui->portset->setText("4321");
     ui->portset->setPlaceholderText("port");
     ui->pushButton_4->hide();
-    ip=new QString;
-    port=new QString;
+    //ip=new QString;
+    //port=new QString;
     *ip=ui->ipset->text();
     *port=ui->portset->text();
 }
@@ -79,6 +79,7 @@ void Login::on_pushButton_2_clicked()
     w->ip=ip;
     w->port=port;
     w->username=username;
+    *mainUserName=username;
     w->init();
     w->show();
     connect(this,SIGNAL(destroyed(QObject*)),this,SLOT(deleteLater()));
