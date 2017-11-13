@@ -1,5 +1,5 @@
 ﻿#include "Server.h"
-
+#include "thread.h"
 Server::Server(QObject *parent) : QObject(parent)
 {
     m_tcpServer = new QTcpServer();
@@ -7,6 +7,7 @@ Server::Server(QObject *parent) : QObject(parent)
     m_tcpServer->setMaxPendingConnections(300);
 //    qDebug() << m_tcpServer->maxPendingConnections();
     connect(m_tcpServer,SIGNAL(newConnection()),this,SLOT(newConnectSlot()));
+
 }
 
 Server::~Server()
@@ -16,6 +17,7 @@ Server::~Server()
 
 void Server::init(int port)
 {
+    this->port=port;
 //    m_pMsgHandler = pMsgHandler;
 
     if(m_tcpServer->listen(QHostAddress::Any, port)){
@@ -40,23 +42,9 @@ void Server::readMessage()
     std::string result=socket->readLine().toStdString();
     switch (result.at(0)) {
     case ('0'+CONNECT):{
-        char result[]="0\n0\n";
-        result[0]+=CONNECT;
-        result[2]+=TRUE_REQUEST;
-        socket->write(QString(result).toStdString().c_str());
-        socket->waitForBytesWritten(3000);
     }
         break;
     case ('0'+SENDTEXT):{
-        QString username=QString::fromStdString(socket->readLine().toStdString());username.chop(1);
-        QString aimusername=QString::fromStdString(socket->readLine().toStdString());aimusername.chop(1);
-        QString thistime=QString::fromStdString(socket->readLine().toStdString());thistime.chop(1);
-        QString information=QString::fromStdString(socket->readLine().toStdString());information.chop(1);
-        //qDebug()<<"\n\ntext from "<<username<<"\ninformation = "<<information<<"\n time = "<<thistime;
-        MySPNPlus myspn;myspn.getKey(aimusername);myspn.decrypt(information,&information);
-        //等等写
-        //qDebug()<<information;
-        ((MainWindow*)thismainwindow)->byAddChat(username,information,thistime,socket);
     }
         break;
     case ('0'+LOGIN)://do nothing
@@ -66,15 +54,6 @@ void Server::readMessage()
     case ('0'+PWRE)://do nothing
         break;
     case ('0'+ADD):{
-        QString username=QString::fromStdString(socket->readLine().toStdString());username.chop(1);
-        QString friendname=QString::fromStdString(socket->readLine().toStdString());friendname.chop(1);
-        QString nickname=QString::fromStdString(socket->readLine().toStdString());nickname.chop(1);
-        qDebug()<<"\n add "<<username<<friendname<<nickname;
-        QString strtime;
-        QDateTime time;
-        time = QDateTime::currentDateTime();
-        strtime = time.toString("yyyy-MM-dd hh:mm:ss");
-        ((MainWindow*)thismainwindow)->addFriendList(username+"    "+"friend    "+strtime);
     }
         break;
     case ('0'+SENDFILE):{
@@ -83,10 +62,11 @@ void Server::readMessage()
         QString filename=QString::fromStdString(socket->readLine().toStdString());filename.chop(1);
         QString sizename=QString::fromStdString(socket->readLine().toStdString());sizename.chop(1);
         QString timestr=QString::fromStdString(socket->readLine().toStdString());timestr.chop(1);
+        qDebug()<<QString("new file from ")+username+" filesize ="+sizename+timestr;
+        //QMessageBox::warning(0,"receive",QString("new file from ")+username+" filesize ="+sizename+timestr);
         Thread *mythread=new Thread(socket,sizename.toLongLong(),filename,username,friendname);
-        ((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" filesize ="+sizename,timestr);
-        mythread->fileRS();
-        //((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" filesize ="+sizename,timestr);
+        mythread->fileSR(port);
+//        ((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" filesize ="+sizename,timestr);
     }
         break;
     case ('0'+LISTENING)://do nothing
@@ -111,7 +91,7 @@ void Server::removeUserFormList()
         {
             m_mapClient.erase(it);
             //m_pMsgHandler->devOffline(socket->peerAddress().toString());
-            qDebug()<<"this is socket->peerAddress().toString() 82\n"<<socket->peerAddress().toString();
+            qDebug()<<"duan kai socket->peerAddress().toString() 82\n"<<socket->peerAddress().toString();
             break;
         }
     }

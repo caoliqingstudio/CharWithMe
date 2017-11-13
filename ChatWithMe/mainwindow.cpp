@@ -27,7 +27,7 @@ void MainWindow::init(){
     }
     //消息处理
     for(int i=0;i<usernames.count();i++){
-        qDebug()<<usernames.at(i)<<informations.at(i)<<timeFriendList.at(i);
+        qDebug()<<usernames.at(i)<<informations.at(i)<<times.at(i);
         byAddChat(usernames.at(i),informations.at(i),timeFriendList.at(i));
     }
 }

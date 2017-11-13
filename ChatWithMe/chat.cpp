@@ -59,6 +59,6 @@ void Chat::on_pushButton_2_clicked()
     const QString fileName = QFileDialog::getOpenFileName(this);
     if(!fileName.isEmpty()){
         Thread * thread=new Thread(aimuserip,fileName,username,aimusername);
-        thread->start();
+        thread->fileRS();
     }
 }

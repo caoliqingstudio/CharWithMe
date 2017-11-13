@@ -43,7 +43,7 @@ int MySocket::sendText(int type, QString string,QString username,QString aimuser
     string=typeString+"\n"+username+"\n"+aimusername+"\n"+strtime+"\n"+string+"\n";
     //qDebug()<<string;
     (*myconnect).write(string.toStdString().c_str());
-    if(!(*myconnect).waitForBytesWritten()){
+    if(!(*myconnect).waitForBytesWritten(3000)){
         std::cout<<"nothing \n"<<std::endl;
         return FAILSEND;
     }/*
@@ -81,11 +81,11 @@ int MySocket::sendRegister(QString username,QString password,QString quest1,QStr
     md5=hash_byte_array.toHex();
     string+=md5+"\n";
     (*myconnect).write(string.toStdString().c_str());
-    if(!(*myconnect).waitForBytesWritten()){
+    if(!(*myconnect).waitForBytesWritten(3000)){
         std::cout<<"nothing \n"<<std::endl;
         return FAILSEND;
     }
-    if(!(*myconnect).waitForReadyRead()){
+    if(!(*myconnect).waitForReadyRead(3000)){
         std::cout<<"nothing \n"<<std::endl;
         return NORETURN;
     }
@@ -112,11 +112,11 @@ int MySocket::sendLogin(QString username,QString password){
     QString md5 = hash_byte_array.toHex();
     string=typeString+"\n"+username+"\n"+md5+"\n";
     (*myconnect).write(string.toStdString().c_str());
-    if(!(*myconnect).waitForBytesWritten()){
+    if(!(*myconnect).waitForBytesWritten(3000)){
         std::cout<<"nothing \n"<<std::endl;
         return FAILSEND;
     }
-    if(!(*myconnect).waitForReadyRead()){
+    if(!(*myconnect).waitForReadyRead(3000)){
         std::cout<<"nothing \n"<<std::endl;
         return NORETURN;
     }
@@ -165,11 +165,11 @@ int MySocket::sendPwRetrieval(QString username,QString newpassword,QString quest
     md5=hash_byte_array.toHex();
     string+=md5+"\n";
     (*myconnect).write(string.toStdString().c_str());
-    if(!(*myconnect).waitForBytesWritten()){
+    if(!(*myconnect).waitForBytesWritten(3000)){
         std::cout<<"nothing \n"<<std::endl;
         return FAILSEND;
     }
-    if(!(*myconnect).waitForReadyRead()){
+    if(!(*myconnect).waitForReadyRead(3000)){
         std::cout<<"nothing \n"<<std::endl;
         return NORETURN;
     }
@@ -312,6 +312,7 @@ int MySocket::sendConnect(QString username, QStringList*fromnames, QStringList *
          test.decrypt(infor,&infor);
          infors->append(infor);
          time=QString::fromStdString((*myconnect).readLine().toStdString());time.chop(1);times->append(time);
+         qDebug()<<"this time ="<<i<<fromname<<time<<infor;
     }
     return SUCCESS;
 }

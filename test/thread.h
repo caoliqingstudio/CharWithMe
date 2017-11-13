@@ -15,8 +15,11 @@
 #include <QMessageBox>
 #include <QTime>
 #include <QFile>
-#include "myspnplus.h"
-#include "state.h"
+
+
+enum returnType{FAILCONNECT,SUCCESSCON,FAILSEND,NORETURN,SUCCESS,WRONG_ANSWER};
+enum connectType{CONNECT,SENDTEXT,LOGIN,REGISTER,PWRE,ADD,SENDFILE,LISTENING,PWRE_ASK,SERVER};
+enum returnState{TRUE_REQUEST,FALSE_REQUEST};
 
 class Thread: public QThread
 {
@@ -24,8 +27,8 @@ class Thread: public QThread
 public:
     Thread(QString ip,QString filename,QString username,QString aimusername);//0 发文件  1 收文件
     Thread(QTcpSocket *socket, quint64 filesize, QString filename, QString username, QString aimusername);
+    void fileSR(int port);
     ~Thread();
-    void fileRS();
 protected:
     char *text;
     bool sendtype;

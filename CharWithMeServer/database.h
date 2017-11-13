@@ -23,7 +23,7 @@ public:
     bool insertOffLine(QString username,QString aimusername,QString information,
                        QString time,int state=0);//插入离线消息
     bool insertFriends(QString username,QString friendname,QString settime,
-                       QString nickname="李华",int state =0);//添加好友
+                       QString nickname="福润德",int state =0);//添加好友
 
     bool findOnline(QString username,QString *ip);//在线用户ip
     bool findUser(QString username,QString *password=NULL);//查询用户 或者登陆
