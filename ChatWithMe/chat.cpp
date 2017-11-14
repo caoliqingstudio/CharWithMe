@@ -6,6 +6,7 @@ Chat::Chat(QWidget *parent) :
     ui(new Ui::Chat)
 {
     ui->setupUi(this);
+    ui->listWidget->setLayoutMode(QListWidget::Batched);
     hostip=NULL;
     hostport=NULL;
     statehost=true;
@@ -52,6 +53,7 @@ void Chat::on_pushButton_clicked()
 
 void Chat::addInfor(QString name, QString infor, QString time){
     ui->listWidget->addItem(name+"  "+time+":\n"+infor);
+    ui->listWidget->scrollToBottom();
 }
 
 void Chat::on_pushButton_2_clicked()
@@ -62,10 +64,10 @@ void Chat::on_pushButton_2_clicked()
         QDateTime time;
 
         time = QDateTime::currentDateTime();
-
+        MySocket fileSocket(mysocket->myconnect->peerAddress().toString(),QString::number(AIM_PORT));
         strtime = time.toString("yyyy-MM-dd hh:mm:ss");
         addInfor(username,"send "+fileName+"start!",strtime);
-        if(mysocket->sendFile(fileName,username,aimusername)==SUCCESS){
+        if(fileSocket.sendFile(fileName,username,aimusername)==SUCCESS){
             addInfor(username,"send "+fileName+" end!",strtime);
         }else{
             addInfor(username,"send "+fileName+"fail!",strtime);

@@ -9,7 +9,7 @@ Server::Server(QObject *parent) : QObject(parent)
     connect(m_tcpServer,SIGNAL(newConnection()),this,SLOT(newConnectSlot()));
 }
 
-Server::Server(QTcpSocket *socket){
+void Server::connectSendR(QTcpSocket *socket){
     connect(socket,SIGNAL(readyRead()),this,SLOT(readMessage()));
     m_mapClient.insert(socket->peerAddress().toString(), socket);
     connect(socket,SIGNAL(disconnected()),this,SLOT(removeUserFormList()));
@@ -90,7 +90,7 @@ void Server::readMessage()
         QString sizename=QString::fromStdString(socket->readLine().toStdString());sizename.chop(1);
         QString timestr=QString::fromStdString(socket->readLine().toStdString());timestr.chop(1);
         //Thread *mythread=new Thread(socket,sizename.toLongLong(),filename,username,friendname);
-        ((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" filesize ="+sizename,timestr);
+        ((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" fileName= "+filename+" filesize ="+sizename,timestr);
         FileSR filereceive;
         QString strtime;
         QDateTime time;

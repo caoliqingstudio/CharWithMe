@@ -41,6 +41,7 @@ private slots:
     void deleteChat();
 
 private:
+    void *server;
     AddFriend *AddFriendWindows;
     MySocket *mysocket;
     QStringList friendList,nicknameList,timeFriendList;

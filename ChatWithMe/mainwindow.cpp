@@ -16,6 +16,7 @@ void MainWindow::init(){
     //server->chatUserUI=&chatUserUI;
     server->thismainwindow=this;
     server->init(AIM_PORT);
+    this->server=server;
     ui->label->setText(username);
     AddFriendWindows=NULL;
     mysocket=new MySocket(*ip,*port);
@@ -132,7 +133,7 @@ void MainWindow::byAddChat(const QString fromname, QTcpSocket *socket){
     if(chatUserUI.contains(fromname)){
         ((Chat *)chatUserUI.value(fromname))->show();
     }else if(socket){
-        Chat * chatwindow=new Chat;
+        Chat * chatwindow=new Chat(this);
         chatwindow->aimusername=fromname;
         chatwindow->username=username;
         chatwindow->mysocket=mysocket;
@@ -163,7 +164,7 @@ void MainWindow::byAddChat(const QString fromname, QTcpSocket *socket){
                 chatwindow->aimuserip=aimuserip;chatwindow->aimuserport=QString::number(AIM_PORT);
                 chatwindow->statehost=false;
                 chatwindow->init();
-                Server * myserver=new Server(friendSocket->myconnect);
+                ((Server *)server)->connectSendR(friendSocket->myconnect);
                 charUserIP.insert(aimusername,aimuserip);
                 chatUserUI.insert(aimusername,chatwindow);
                 connect(chatwindow,SIGNAL(destroyed(QObject*)),this,SLOT(deleteChat()));
@@ -173,7 +174,7 @@ void MainWindow::byAddChat(const QString fromname, QTcpSocket *socket){
                 delete friendSocket;
             }
         }
-        Chat * chatwindow=new Chat;
+        Chat * chatwindow=new Chat(this);
         chatwindow->aimusername=aimusername;
         chatwindow->username=username;
         chatwindow->mysocket=mysocket;

@@ -20,7 +20,7 @@ class Server : public QObject
     Q_OBJECT
 public:
     explicit Server(QObject *parent = 0);
-    Server(QTcpSocket * socket);
+    void connectSendR(QTcpSocket * socket);
     ~Server();
     void * thismainwindow;
     //QMap<QString,Chat*> *chatUserUI;
