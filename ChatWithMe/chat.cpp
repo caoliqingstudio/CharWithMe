@@ -68,8 +68,12 @@ void Chat::on_pushButton_2_clicked()
         strtime = time.toString("yyyy-MM-dd hh:mm:ss");
         addInfor(username,"send "+fileName+"start!",strtime);
         if(fileSocket.sendFile(fileName,username,aimusername)==SUCCESS){
+            time = QDateTime::currentDateTime();
+            strtime = time.toString("yyyy-MM-dd hh:mm:ss");
             addInfor(username,"send "+fileName+" end!",strtime);
         }else{
+            time = QDateTime::currentDateTime();
+            strtime = time.toString("yyyy-MM-dd hh:mm:ss");
             addInfor(username,"send "+fileName+"fail!",strtime);
         }
     }

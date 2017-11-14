@@ -21,11 +21,11 @@ bool FileSR::fileSend(QTcpSocket *socket, QString filename, QString username, QS
     }
     QStringList fileList=filename.split('/');
     filename=fileList.at(fileList.count()-1);
-    qDebug()<<"will send file = "<<filename;
+    //qDebug()<<"will send file = "<<filename;
     filesize=readfile.size();
     QString sendtext=QString::number(SENDFILE)+"\n"+username+"\n"
           +aimusername+"\n"+filename+"\n"+QString::number(filesize)+"\n"+strtime+"\n";
-    qDebug()<<"\nfirst send to aim= "<<sendtext<<"\n\n";
+    //qDebug()<<"\nfirst send to aim= "<<sendtext<<"\n\n";
     socket->write(sendtext.toStdString().c_str());
     socket->waitForBytesWritten();
     if(!socket->waitForReadyRead()){
@@ -58,31 +58,40 @@ bool FileSR::fileSend(QTcpSocket *socket, QString filename, QString username, QS
     quint32 num;
     quint32 first=1;
     quint64 havesend=0;
-    qDebug()<<"start to send";
+    //qDebug()<<"start to send";
     //QMessageBox::warning(0,"send","start to send");
     char *text=new char[2048];
     while(num=readfile.read(text,1024)){
         quint32 endnum=8;
         char charstate;
-        qDebug()<<"thsi is "<<first<<" size = "<<num;
+        int couts=num/8;
+        if(num%8){
+            text[num]=0;text[num+1]=0;text[num+2]=0;text[num+3]=0;
+            text[num+4]=0;text[num+5]=0;text[num+6]=0;
+            num++;
+        }
+        for(int i=0;i<couts;i++){
+            *(((quint64*)text)+i)=myspn.encrypt(*(((quint64*)text)+i));
+        }
+        //qDebug()<<"thsi is "<<first<<" size = "<<num;
         do{
             socket->write("send\n");
             socket->write((QString::number(first).toStdString()+'\n').c_str());
-            int numberwr=socket->write(QByteArray::fromRawData(text,num));
+            int numberwr=socket->write(QByteArray::fromRawData(text,couts*8));
             //sendsocket.write(text,couts*8+16);
-            qDebug()<<"this time"<< first<<" file "<<num<<" has send"<<numberwr;
+            //qDebug()<<"this time"<< first<<" file "<<num<<" has send"<<numberwr;
             socket->waitForBytesWritten();
             if(socket->waitForReadyRead()&&(endnum--)){
                 charstate=socket->readAll().toStdString().at(0);
-                if(charstate=='1')qDebug()<<QString("fasongshibai\n");
+                //if(charstate=='1')//qDebug()<<QString("fasongshibai\n");
             }else{
-                qDebug()<<"lian xu fasong shibai hou\n";
-                QMessageBox::warning(0,"SendFile","fail to send;please check the send!");
+                //qDebug()<<"lian xu fasong shibai hou\n";
+                //QMessageBox::warning(0,"SendFile","fail to send;please check the send!");
                 readfile.close();
                 return false;
             }
         }while(charstate=='1');
-        qDebug()<<QString("ok send\n");
+        //qDebug()<<QString("ok send\n");
         havesend+=num;
         first++;
         //lable2.setText(QString::number(havesend*100/filesize)+"%");
@@ -92,13 +101,15 @@ bool FileSR::fileSend(QTcpSocket *socket, QString filename, QString username, QS
     socket->waitForBytesWritten();
     if(socket->waitForReadyRead()){
         char charstate=socket->readAll().toStdString().at(0);
+        readfile.close();
         if(charstate!='A'){
-            QMessageBox::warning(0,QString("SendFile"),QString("send fail!"));
+            //QMessageBox::warning(0,QString("SendFile"),QString("send fail!"));
+            return false;
         }else{
-            QMessageBox::warning(0,QString("SendFile"),QString("send success!"));
+            //QMessageBox::warning(0,QString("SendFile"),QString("send success!"));
         }
     }else{
-        QMessageBox::warning(0,QString("SendFile"),"fail to send;please check the send!");
+        //QMessageBox::warning(0,QString("SendFile"),"fail to send;please check the send!");
         readfile.close();
         delete []text;
         return false;
@@ -140,7 +151,7 @@ bool FileSR::fileReceive(QTcpSocket *mysocket, quint64 filesize, QString filenam
 //    QDateTime time;
 //    time = QDateTime::currentDateTime();
 //    strtime = time.toString("yyyy-MM-dd hh:mm:ss");
-    qDebug()<<"start to receive fiel ";
+    //qDebug()<<"start to receive fiel ";
     while(mysocket->waitForReadyRead()){
         QString receivetxt=QString::fromStdString(mysocket->readLine().toStdString());
         QString receivefirst=QString::fromStdString(mysocket->readLine().toStdString());receivefirst.chop(1);
@@ -150,33 +161,19 @@ bool FileSR::fileReceive(QTcpSocket *mysocket, quint64 filesize, QString filenam
             break;
         }else if(receivefirst.toInt()!=first){
             mysocket->readAll();
-            qDebug()<<"fail to receive the block = "<<receivefirst;
+            //qDebug()<<"fail to receive the block = "<<receivefirst;
             mysocket->write("1\n");
             mysocket->waitForBytesWritten();
         }
         QByteArray bytearry= mysocket->readAll();
-        char *receive=bytearry.data();
         int blocknumR=bytearry.size();
-//            int num=blockNum/8-1;
-//            for(int i=0;i<num;i++){
-//                temp=temp^*(((quint64*)text)+i);
-//                //(*(((quint64*)text)+i))=myspn.decrypt(*(((quint64*)text)+i));
-//            }
-//            temp=temp^*(((unsigned long long*)text)+num);
-//            //(*(((unsigned long long*)text)+num))=myspn.decrypt(*(((unsigned long long*)text)+num));
-//            int j=7;
-//            while(text[num*8+j]==0){
-//                j--;
-//                blockNum--;
-//            }
-//            if(temp!=receivetemp){
-//                mysocket->readAll();
-//                mysocket->write("1\n");
-//                mysocket->waitForBytesWritten();
-//                continue;
-//            }
+        char *receive=bytearry.data();
+        int couts=blocknumR/8;
+        for(int i=0;i<couts;i++){
+            *(((quint64*)receive)+i)=myspn.decrypt(*(((quint64*)receive)+i));
+        }
         quint64 blockNum=receivefile.write(bytearry);
-        qDebug()<<"have receive "<<first++<<" receive"<<receivefirst<<" receice "<<blocknumR<<" file "<<blockNum<<" blocksize "<<strlen(receive);
+        //qDebug()<<"have receive "<<first++<<" receive"<<receivefirst<<" receice "<<blocknumR<<" file "<<blockNum<<" blocksize "<<strlen(receive);
         havereceive+=blockNum;
         //lable2.setText(QString::number(havereceive*100/receivefilesize)+"%");
         mysocket->readAll();
@@ -185,7 +182,7 @@ bool FileSR::fileReceive(QTcpSocket *mysocket, quint64 filesize, QString filenam
     }
 //    time = QDateTime::currentDateTime();
 //    strtime = time.toString("yyyy-MM-dd hh:mm:ss");
-//    qDebug()<<"end to receive fiel "<<strtime;
+//    //qDebug()<<"end to receive fiel "<<strtime;
     receivefile.close();
     return true;
 }

@@ -92,14 +92,18 @@ void Server::readMessage()
         //Thread *mythread=new Thread(socket,sizename.toLongLong(),filename,username,friendname);
         ((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" fileName= "+filename+" filesize ="+sizename,timestr);
         FileSR filereceive;
-        QString strtime;
-        QDateTime time;
-        time = QDateTime::currentDateTime();
-        strtime = time.toString("yyyy-MM-dd hh:mm:ss");
         if(!filereceive.fileReceive(socket,sizename.toULongLong(),filename,username,friendname)){
-            ((MainWindow*)thismainwindow)->byAddChat(username,QString("receive fail ")+filename+"!",timestr);
+            QString strtime;
+            QDateTime time;
+            time = QDateTime::currentDateTime();
+            strtime = time.toString("yyyy-MM-dd hh:mm:ss");
+            ((MainWindow*)thismainwindow)->byAddChat(username,QString("receive fail ")+filename+"!",strtime);
         }else{
-            ((MainWindow*)thismainwindow)->byAddChat(username,QString("receive success ")+filename+"!",timestr);
+            QString strtime;
+            QDateTime time;
+            time = QDateTime::currentDateTime();
+            strtime = time.toString("yyyy-MM-dd hh:mm:ss");
+            ((MainWindow*)thismainwindow)->byAddChat(username,QString("receive success ")+filename+"!",strtime);
         }
         //mythread->fileRS();
         //((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" filesize ="+sizename,timestr);
