@@ -24,28 +24,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     server.cpp \
     login.cpp \
     register.cpp \
     pwretrieval.cpp \
     addfriend.cpp \
-    chat.cpp \
     mysocket.cpp \
     thread.cpp \
-    myspnplus.cpp
+    myspnplus.cpp \
+    filesr.cpp \
+    mainwindow.cpp \
+    chat.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     server.h \
     login.h \
     register.h \
     pwretrieval.h \
     addfriend.h \
-    chat.h \
     mysocket.h \
     state.h \
     thread.h \
-    myspnplus.h
+    myspnplus.h \
+    filesr.h \
+    mainwindow.h \
+    chat.h
 
 FORMS    += mainwindow.ui \
     login.ui \

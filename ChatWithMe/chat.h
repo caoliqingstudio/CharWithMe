@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include "thread.h"
 #include "mysocket.h"
+#include "server.h"
 #include "state.h"
 
 namespace Ui {

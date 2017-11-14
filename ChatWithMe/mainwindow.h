@@ -8,11 +8,12 @@
 #include "server.h"
 #include "mysocket.h"
 #include "addfriend.h"
-#include "chat.h"
+#include "filesr.h"
+
 
 namespace Ui {
 class MainWindow;
-};
+}
 
 class MainWindow : public QMainWindow
 {
@@ -28,7 +29,7 @@ public:
     void byAddChat(QString fromname,QString infor,QString time,QTcpSocket*socket=NULL);
     void byAddChat(const QString fromname, QTcpSocket *socket=NULL);
     void addFriendList(QString name);
-    QMap<QString,Chat*> chatUserUI;
+    QMap<QString,void*> chatUserUI;
     QMap<QString,QString> charUserIP;
 private slots:
     void on_pushButton_clicked();

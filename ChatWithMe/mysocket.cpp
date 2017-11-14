@@ -137,6 +137,7 @@ int MySocket::sendQuit(QString username){
     //qDebug()<<"\n\n\n\nsend quit "<<string;
     (*myconnect).write(string.toStdString().c_str());
     (*myconnect).waitForBytesWritten(3000);
+    return SUCCESS;
 }
 
 int MySocket::sendPwRetrieval(QString username,QString newpassword,QString quest1,QString answ1,
@@ -391,6 +392,15 @@ int MySocket::sendServer(QString aimusername, QString *ip){
     (*myconnect).flush();
     return SUCCESS;
 }
+
+int MySocket::sendFile(QString filename, QString username, QString aimusername){
+    FileSR file;
+    if(!file.fileSend(myconnect,filename,username,aimusername)){
+        return FAILSEND;
+    }
+    return SUCCESS;
+}
+
 
 MySocket::~MySocket(){
     (*myconnect).disconnect();

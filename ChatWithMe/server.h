@@ -9,19 +9,21 @@
 #include <QtNetwork/QNetworkInterface>
 #include <QDebug>
 #include <QTime>
-#include "chat.h"
 #include "state.h"
 #include "mainwindow.h"
-#include "myspnplus.h"
+#include "filesr.h"
+//#include "myspnplus.h"
+#include "chat.h"
 
 class Server : public QObject
 {
     Q_OBJECT
 public:
     explicit Server(QObject *parent = 0);
+    Server(QTcpSocket * socket);
     ~Server();
     void * thismainwindow;
-    QMap<QString,Chat*> *chatUserUI;
+    //QMap<QString,Chat*> *chatUserUI;
     QMap<QString,QString> *charUserIP;
     void init(int port);
 signals:

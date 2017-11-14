@@ -9,6 +9,12 @@ Server::Server(QObject *parent) : QObject(parent)
     connect(m_tcpServer,SIGNAL(newConnection()),this,SLOT(newConnectSlot()));
 }
 
+Server::Server(QTcpSocket *socket){
+    connect(socket,SIGNAL(readyRead()),this,SLOT(readMessage()));
+    m_mapClient.insert(socket->peerAddress().toString(), socket);
+    connect(socket,SIGNAL(disconnected()),this,SLOT(removeUserFormList()));
+}
+
 Server::~Server()
 {
 
@@ -83,9 +89,19 @@ void Server::readMessage()
         QString filename=QString::fromStdString(socket->readLine().toStdString());filename.chop(1);
         QString sizename=QString::fromStdString(socket->readLine().toStdString());sizename.chop(1);
         QString timestr=QString::fromStdString(socket->readLine().toStdString());timestr.chop(1);
-        Thread *mythread=new Thread(socket,sizename.toLongLong(),filename,username,friendname);
+        //Thread *mythread=new Thread(socket,sizename.toLongLong(),filename,username,friendname);
         ((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" filesize ="+sizename,timestr);
-        mythread->fileRS();
+        FileSR filereceive;
+        QString strtime;
+        QDateTime time;
+        time = QDateTime::currentDateTime();
+        strtime = time.toString("yyyy-MM-dd hh:mm:ss");
+        if(!filereceive.fileReceive(socket,sizename.toULongLong(),filename,username,friendname)){
+            ((MainWindow*)thismainwindow)->byAddChat(username,QString("receive fail ")+filename+"!",timestr);
+        }else{
+            ((MainWindow*)thismainwindow)->byAddChat(username,QString("receive success ")+filename+"!",timestr);
+        }
+        //mythread->fileRS();
         //((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" filesize ="+sizename,timestr);
     }
         break;

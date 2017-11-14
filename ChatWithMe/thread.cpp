@@ -182,7 +182,7 @@ void Thread::fileRS(){
         QFile receivefile(*filename);
         if(!receivefile.open(QFile::WriteOnly)){
             QMessageBox::warning(0,"ReceiveFile",QString("fail to create")+filename);
-            receivefile.close();
+            //receivefile.close();
             //this->~Thread();//this->deleteLater();
             return;
         }

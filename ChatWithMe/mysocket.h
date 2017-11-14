@@ -12,6 +12,7 @@
 #include <QTime>
 #include <QCryptographicHash>
 #include "state.h"
+#include "filesr.h"
 #include "myspnplus.h"
 
 class MySocket:QObject
@@ -20,9 +21,11 @@ class MySocket:QObject
 public:
     MySocket(QString ip,QString port);
     MySocket(QString ip,QString port,QTcpSocket* insocket);
+    QTcpSocket *myconnect;
     //int init(QString ip,QString port);
     ~MySocket();
     int sendText(int type, QString string, QString username, QString aimusername);
+    int sendFile(QString filename,QString username,QString aimusername);
     int sendLogin(QString username,QString password);
     int sendRegister(QString username,QString password,QString quest1,QString answ1,
                   QString quest2,QString answ2,QString quest3,QString answ3);
@@ -41,7 +44,6 @@ private:
     int connectState;
     QString receiveInfor;
     QString ip,port;
-    QTcpSocket *myconnect;
     int checkAndConnect();
 };
 
