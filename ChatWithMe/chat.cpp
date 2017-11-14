@@ -66,7 +66,7 @@ void Chat::on_pushButton_2_clicked()
         time = QDateTime::currentDateTime();
         MySocket fileSocket(mysocket->myconnect->peerAddress().toString(),QString::number(AIM_PORT));
         strtime = time.toString("yyyy-MM-dd hh:mm:ss");
-        addInfor(username,"send "+fileName+"start!",strtime);
+        addInfor(username,"send "+fileName+" start!",strtime);
         if(fileSocket.sendFile(fileName,username,aimusername)==SUCCESS){
             time = QDateTime::currentDateTime();
             strtime = time.toString("yyyy-MM-dd hh:mm:ss");
@@ -74,7 +74,7 @@ void Chat::on_pushButton_2_clicked()
         }else{
             time = QDateTime::currentDateTime();
             strtime = time.toString("yyyy-MM-dd hh:mm:ss");
-            addInfor(username,"send "+fileName+"fail!",strtime);
+            addInfor(username,"send "+fileName+" fail!",strtime);
         }
     }
 }
