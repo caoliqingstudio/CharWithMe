@@ -395,7 +395,7 @@ int MySocket::sendServer(QString aimusername, QString *ip){
 
 int MySocket::sendFile(QString filename, QString username, QString aimusername){
     FileSR file;
-    if(!file.fileSend(myconnect,filename,username,aimusername)){
+    if(!file.fileSendFast(myconnect,filename,username,aimusername)){
         return FAILSEND;
     }
     return SUCCESS;

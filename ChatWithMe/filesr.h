@@ -18,12 +18,18 @@
 #include "myspnplus.h"
 #include "state.h"
 
+#define BLOCK_SIZE 1024
+
 class FileSR
 {
 public:
     FileSR();
     bool fileSend(QTcpSocket *socket,QString filename, QString username, QString aimusername);
-    bool fileReceive(QTcpSocket *socket, quint64 filesize, QString filename, QString username, QString aimusername);
+    bool fileReceive(QTcpSocket *mysocket, quint64 filesize, QString filename, QString username, QString aimusername);
+    bool fileSendFast(QTcpSocket *socket,QString filename, QString username, QString aimusername);
+    bool fileReceiveFast(QTcpSocket *mysocket, quint64 filesize, QString filename, QString username, QString aimusername);
+    bool fileSendFast_A(QTcpSocket *socket,QString filename, QString username, QString aimusername);
+    bool fileReceiveFast_A(QTcpSocket *mysocket, quint64 filesize, QString filename, QString username, QString aimusername);
 };
 
 #endif // FILESR_H
