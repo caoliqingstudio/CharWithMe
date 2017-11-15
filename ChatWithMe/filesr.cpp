@@ -86,7 +86,7 @@ bool FileSR::fileSend(QTcpSocket *socket, QString filename, QString username, QS
                 if(charstate=='1') qDebug()<<QString("fasongshibai\n");
             }else{
                 qDebug()<<"lian xu fasong shibai hou\n";
-                //QMessageBox::warning(0,"SendFile","fail to send;please check the send!");
+                //QMessageBox::warning(0,"SendFile","fail to send;please check the send!");//
                 readfile.close();
                 return false;
             }
