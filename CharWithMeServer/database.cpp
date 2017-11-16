@@ -216,6 +216,16 @@ bool DataBase::findPwReAsk(QString username,QString *question1,QString *question
 bool DataBase::findPwRe(QString username,QString password,QString question1,QString answer1,
               QString question2,QString answer2,QString question3,
               QString answer3){
+    QSqlQuery findquery(db);
+    findquery.prepare("select * from users where username = ? and answer1 = ? and answer2 = ? and answer3 = ?");
+    findquery.bindValue(0,username);
+    findquery.bindValue(1,answer1);
+    findquery.bindValue(2,answer2);
+    findquery.bindValue(3,answer3);
+    findquery.exec();
+    if(!findquery.next()){
+        return false;
+    }
     QSqlQuery query(db);
     query.prepare("update users set password=? where username = ? and answer1 = ? and answer2 = ? and answer3 = ?");
     query.bindValue(0,password);

@@ -256,7 +256,7 @@ int MySocket::sendConnect(){
 
 int MySocket::sendConnect(QString username, QStringList*fromnames, QStringList *infors, QStringList *times, QStringList *friends, QStringList *nicknames, QStringList *timefriends){
     int type=CONNECT;
-    (*myconnect).readAll();
+    if(myconnect->isReadable()) (*myconnect).readAll();
     QString string;
     QString typeString=QString::number(type);
     string=typeString+"\n"+username+"\n";
@@ -267,7 +267,7 @@ int MySocket::sendConnect(QString username, QStringList*fromnames, QStringList *
     }
     if(!(*myconnect).waitForReadyRead(3000)){
         std::cout<<"nothing \n"<<std::endl;
-        (*myconnect).flush();
+        //(*myconnect).flush();
         return NORETURN;
     }
     //QString readalltext=QString::fromStdString((*myconnect).readAll().toStdString());qDebug()<<readalltext;return WRONG_ANSWER;
@@ -280,7 +280,7 @@ int MySocket::sendConnect(QString username, QStringList*fromnames, QStringList *
     result=(*myconnect).readLine().toStdString();
     if(result.at(0)!=('0'+TRUE_REQUEST)){
         qDebug()<<"wrong answer";
-        (*myconnect).flush();
+        //(*myconnect).flush();
         return WRONG_ANSWER;
     }
     QString friendNumStr=QString::fromStdString((*myconnect).readLine().toStdString());friendNumStr.chop(1);
@@ -298,7 +298,7 @@ int MySocket::sendConnect(QString username, QStringList*fromnames, QStringList *
         timefriends->append(timefriend);
     }
     int num=QString::fromStdString(result).toInt();
-    //qDebug()<<friendnum<<num<<"liangge de shumu";
+    qDebug()<<friendnum<<num<<"liangge de shumu";
     //QString readalltext=QString::fromStdString((*myconnect).readAll().toStdString());qDebug()<<readalltext;return WRONG_ANSWER;
     MySPNPlus test;test.getKey(username);
     fromnames->clear();infors->clear();times->clear();
@@ -319,7 +319,7 @@ int MySocket::sendConnect(QString username, QStringList*fromnames, QStringList *
 }
 
 int MySocket::sendAddFriend(QString username, QString aimusername,QString nickname){//加好友
-    (*myconnect).readAll();
+    if(myconnect->isReadable())(*myconnect).readAll();
     int type=ADD;
     QString string;
     QString typeString=QString::number(type);
@@ -395,7 +395,7 @@ int MySocket::sendServer(QString aimusername, QString *ip){
 
 int MySocket::sendFile(QString filename, QString username, QString aimusername){
     FileSR file;
-    if(!file.fileSendFast(myconnect,filename,username,aimusername)){
+    if(!file.fileSendFast_A(myconnect,filename,username,aimusername)){
         return FAILSEND;
     }
     return SUCCESS;

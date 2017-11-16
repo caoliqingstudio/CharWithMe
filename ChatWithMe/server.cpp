@@ -92,7 +92,7 @@ void Server::readMessage()
         //Thread *mythread=new Thread(socket,sizename.toLongLong(),filename,username,friendname);
         ((MainWindow*)thismainwindow)->byAddChat(username,QString("new file from ")+username+" fileName= "+filename+" filesize ="+sizename,timestr);
         FileSR filereceive;
-        if(!filereceive.fileReceiveFast(socket,sizename.toULongLong(),filename,username,friendname)){
+        if(!filereceive.fileReceiveFast_A(socket,sizename.toULongLong(),filename,username,friendname)){
             QString strtime;
             QDateTime time;
             time = QDateTime::currentDateTime();

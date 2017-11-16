@@ -28,8 +28,9 @@ void MainWindow::init(){
     }
     //消息处理
     for(int i=0;i<usernames.count();i++){
-        qDebug()<<usernames.at(i)<<informations.at(i)<<times.at(i);
-        byAddChat(usernames.at(i),informations.at(i),timeFriendList.at(i));
+        //qDebug()<<"thsi = "<<i;
+        qDebug()<<usernames.at(i)<<informations.at(i)<<times.at(i)<<usernames.count();
+        byAddChat(usernames.at(i),informations.at(i),times.at(i));
     }
 }
 
@@ -131,7 +132,7 @@ void MainWindow::deleteChat(){
 void MainWindow::byAddChat(const QString fromname, QTcpSocket *socket){
     qDebug()<<"new window char ="<<fromname;
     if(chatUserUI.contains(fromname)){
-        ((Chat *)chatUserUI.value(fromname))->show();
+        if(((Chat *)chatUserUI.value(fromname))->isHidden())((Chat *)chatUserUI.value(fromname))->show();
     }else if(socket){
         Chat * chatwindow=new Chat(this);
         chatwindow->aimusername=fromname;
@@ -191,7 +192,8 @@ void MainWindow::byAddChat(const QString fromname, QTcpSocket *socket){
 }
 
 void MainWindow::byAddChat(QString fromname, QString infor, QString time, QTcpSocket *socket){
-    qDebug()<<"new window chat=="<<fromname<<infor<<time;
+    qDebug()<<"byaddchar";
+    //qDebug()<<"new window chat=="<<fromname<<infor<<time;
     byAddChat(fromname,socket);
     if(chatUserUI.contains(fromname)){
         ((Chat *)chatUserUI.value(fromname))->addInfor(fromname,infor,time);
